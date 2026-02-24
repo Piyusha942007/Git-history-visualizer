@@ -1,0 +1,25 @@
+.dashboard {
+  min-height: 100vh;
+  padding: 40px 60px;
+  background: radial-gradient(circle at top, #f7fbff, #eef4ff);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* LEFT PANEL */
+.left-panel {
+  position: sticky;
+  top: 40px;
+}
+
+/* RIGHT PANEL */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}

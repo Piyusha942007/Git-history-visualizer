@@ -1,0 +1,59 @@
+.primary-btn {
+  background: linear-gradient(135deg, #1e5fd8, #3b82f6);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 25px rgba(30, 95, 216, 0.3);
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(30, 95, 216, 0.4);
+}
+.control-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+
+  border: 1.5px solid #d6e4ff;
+  background: #ffffff;
+  color: #1e5fd8;
+
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(30, 95, 216, 0.12);
+  transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+  background: #eef4ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(30, 95, 216, 0.18);
+}
+
+.control-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(30, 95, 216, 0.2);
+}
+
+/* Primary (Play button) */
+.control-btn.primary {
+  background: linear-gradient(135deg, #2b6df6, #1e5fd8);
+  color: #ffffff;
+  border: none;
+}
+
+.control-btn.primary:hover {
+  background: linear-gradient(135deg, #1e5fd8, #1749b5);
+}

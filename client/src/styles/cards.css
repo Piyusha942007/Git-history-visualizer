@@ -1,0 +1,28 @@
+.repo-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 20px 50px rgba(30, 95, 216, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.repo-card h3 {
+  color: #1e5fd8;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.repo-card input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #dbe6ff;
+  font-size: 14px;
+  outline: none;
+}
+
+.repo-card input:focus {
+  border-color: #1e5fd8;
+  box-shadow: 0 0 0 3px rgba(30, 95, 216, 0.15);
+}
