@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 const eventSchema = new mongoose.Schema(
   {
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,   // ✅ changed from ObjectId to String
     },
     type: {
       type: String,

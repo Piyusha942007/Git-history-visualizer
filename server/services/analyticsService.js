@@ -1,35 +1,65 @@
 import Event from "../models/Event.js";
 import Metric from "../models/Metric.js";
 
+/**
+ * Log a new event
+ */
 export const logEvent = async (userId, type, metadata = {}) => {
-  return await Event.create({
-    userId,
-    type,
-    metadata,
-  });
+  try {
+    return await Event.create({
+      userId,
+      type,
+      metadata,
+    });
+  } catch (error) {
+    console.error("Error logging event:", error);
+    throw new Error("Failed to log event");
+  }
 };
 
+/**
+ * Generate aggregated metrics
+ */
 export const generateMetrics = async () => {
-  const totalEvents = await Event.countDocuments();
+  try {
+    const totalEvents = await Event.countDocuments();
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-  const todayEvents = await Event.countDocuments({
-    createdAt: { $gte: today },
-  });
+    const todayEvents = await Event.countDocuments({
+      createdAt: { $gte: today },
+    });
 
-  const metrics = [
-    { name: "Total Events", value: totalEvents },
-    { name: "Today's Events", value: todayEvents },
-  ];
+    const metrics = [
+      { name: "Total Events", value: totalEvents },
+      { name: "Today's Events", value: todayEvents },
+    ];
 
-  await Metric.deleteMany({});
-  await Metric.insertMany(metrics);
+    // Instead of deleting everything, update or insert
+    for (const metric of metrics) {
+      await Metric.findOneAndUpdate(
+        { name: metric.name },
+        { value: metric.value },
+        { upsert: true, new: true }
+      );
+    }
 
-  return metrics;
+    return metrics;
+  } catch (error) {
+    console.error("Error generating metrics:", error);
+    throw new Error("Failed to generate metrics");
+  }
 };
 
+/**
+ * Fetch latest metrics
+ */
 export const getMetrics = async () => {
-  return await Metric.find().sort({ createdAt: -1 });
+  try {
+    return await Metric.find().sort({ updatedAt: -1 });
+  } catch (error) {
+    console.error("Error fetching metrics:", error);
+    throw new Error("Failed to fetch metrics");
+  }
 };
