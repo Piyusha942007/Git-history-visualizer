@@ -1,18 +1,11 @@
-.card {
+.insight-card {
   background: white;
   padding: 16px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
 }
 
-.card-title {
-  margin-bottom: 8px;
-}
-
-.insight-label {
-  color: var(--text-light);
-}
-
-.insight-value {
-  color: var(--primary);
+.insight-card p {
+  font-size: 20px;
+  font-weight: bold;
 }
