@@ -1,65 +1,58 @@
-import Event from "../models/Event.js";
-import Metric from "../models/Metric.js";
+/**
+ * Temporary Analytics Service (No MongoDB)
+ * -----------------------------------------
+ * This version removes all DB dependency
+ * to prevent Mongoose timeout errors.
+ */
 
 /**
- * Log a new event
+ * Log a new event (console only)
  */
 export const logEvent = async (userId, type, metadata = {}) => {
   try {
-    return await Event.create({
+    console.log("📊 Event Logged:", {
       userId,
       type,
       metadata,
+      timestamp: new Date().toISOString(),
     });
+
+    return {
+      success: true,
+      message: "Event logged (console mode)",
+    };
   } catch (error) {
     console.error("Error logging event:", error);
-    throw new Error("Failed to log event");
+    return null; // Do NOT throw error (prevents crash)
   }
 };
 
 /**
- * Generate aggregated metrics
+ * Generate fake metrics (no DB)
  */
 export const generateMetrics = async () => {
   try {
-    const totalEvents = await Event.countDocuments();
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const todayEvents = await Event.countDocuments({
-      createdAt: { $gte: today },
-    });
-
-    const metrics = [
-      { name: "Total Events", value: totalEvents },
-      { name: "Today's Events", value: todayEvents },
+    return [
+      { name: "Total Events", value: 0 },
+      { name: "Today's Events", value: 0 },
     ];
-
-    // Instead of deleting everything, update or insert
-    for (const metric of metrics) {
-      await Metric.findOneAndUpdate(
-        { name: metric.name },
-        { value: metric.value },
-        { upsert: true, new: true }
-      );
-    }
-
-    return metrics;
   } catch (error) {
     console.error("Error generating metrics:", error);
-    throw new Error("Failed to generate metrics");
+    return [];
   }
 };
 
 /**
- * Fetch latest metrics
+ * Fetch metrics (no DB)
  */
 export const getMetrics = async () => {
   try {
-    return await Metric.find().sort({ updatedAt: -1 });
+    return [
+      { name: "Total Events", value: 0 },
+      { name: "Today's Events", value: 0 },
+    ];
   } catch (error) {
     console.error("Error fetching metrics:", error);
-    throw new Error("Failed to fetch metrics");
+    return [];
   }
 };

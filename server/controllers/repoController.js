@@ -19,49 +19,15 @@ export const analyzeRepo = async (req, res) => {
     // 1️⃣ Parse git history
     const commits = await parseGitHistory(repoUrl);
 
-    // 2️⃣ Generate analytics
-    const totalCommits = commits.length;
-
-    // Group by date (timeline)
-    const commitsByDate = {};
-    const contributors = {};
-
-    commits.forEach((commit) => {
-      const date = new Date(commit.date).toISOString().split("T")[0];
-
-      // Timeline
-      commitsByDate[date] = (commitsByDate[date] || 0) + 1;
-
-      // Contributor stats
-      const author = commit.author || "Unknown";
-      contributors[author] = (contributors[author] || 0) + 1;
-    });
-
-    // Convert objects to arrays (frontend friendly)
-    const timeline = Object.entries(commitsByDate).map(([date, count]) => ({
-      date,
-      count,
-    }));
-
-    const contributorStats = Object.entries(contributors).map(
-      ([author, count]) => ({
-        author,
-        commits: count,
-      })
-    );
-
-    // 3️⃣ Log event (optional)
+    // 2️⃣ Log event (optional)
     await logEvent("system", "REPO_ANALYZED", { repoUrl });
 
+    // 3️⃣ Return RAW commits array (IMPORTANT)
     return res.status(200).json({
       success: true,
-      message: "Repository analyzed successfully",
-      data: {
-        totalCommits,
-        timeline,
-        contributors: contributorStats,
-      },
+      commits,
     });
+
   } catch (error) {
     console.error("Analyze Repo Error:", error);
 
