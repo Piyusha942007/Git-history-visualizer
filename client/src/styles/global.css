@@ -1,0 +1,18 @@
+:root {
+  --bg-black: #000000;
+  --card-bg: #0a0a0b;
+  --border-color: #1e1e20;
+  --indigo-accent: #6366f1;
+  --text-main: #ffffff;
+  --text-muted: #a1a1aa;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-black);
+  color: var(--text-main);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }

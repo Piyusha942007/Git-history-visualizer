@@ -1,10 +1,9 @@
-import Card from "./Card";
-
-export default function InsightItem({ label, value }) {
+export default function InsightItem({ title, value, trend }) {
   return (
-    <Card>
-      <p className="insight-label">{label}</p>
-      <h2 className="insight-value">{value}</h2>
-    </Card>
+    <div className="insight-card">
+      <h4>{title}</h4>
+      <div className="value">{value}</div>
+      {trend && <span className="trend">{trend}</span>}
+    </div>
   );
 }
