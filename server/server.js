@@ -39,5 +39,4 @@ app.get("/", (req, res) => {
   res.send("Server running 🚀");
 });
 
-/* ✅ EXPORT INSTEAD OF LISTEN */
-export default app;
+app.listen(PORT, () => console.log("Server running"))
