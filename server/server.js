@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://YOUR-FRONTEND-DOMAIN.vercel.app"
+      "https://git-time-traveller.vercel.app"
     ],
     credentials: true,
   })
