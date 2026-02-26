@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  ArrowLeft, Search, Globe, GitCommit,
-  Users, CalendarDays, Clock, X
+  ArrowLeft,
+  Search,
+  Globe,
+  GitCommit,
+  Users,
+  CalendarDays,
+  Clock,
+  X
 } from "lucide-react";
 
 import CommitTimeline from "../components/charts/CommitTimeline";
@@ -58,7 +64,32 @@ export default function Dashboard() {
           font-family: 'Inter', system-ui, sans-serif;
         }
 
-        /* Standard Card & Hover */
+        /* Modern Pill Back Button */
+        .back-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          padding: 0.6rem 1.2rem;
+          border-radius: 50px;
+          border: 1px solid var(--border);
+          background: white;
+          color: var(--text-main);
+          font-weight: 600;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .back-btn:hover {
+          background-color: #f1f5f9;
+          transform: translateX(-4px);
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          border-color: #cbd5e1;
+        }
+
+        /* Standard Card & Hover Animations */
         .card-base {
           background: var(--card-bg);
           border-radius: 16px;
@@ -106,12 +137,55 @@ export default function Dashboard() {
           to { transform: scale(1); opacity: 1; } 
         }
 
-        /* Layout Grid */
-        .dashboard-grid { display: grid; grid-template-columns: 320px 1fr; gap: 2.5rem; }
-        .insights-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2.5rem; margin-right: 1.5rem; }
-        .insight-card { padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-        .icon-box { width: 48px; height: 48px; border-radius: 12px; background: #EEF2FF; color: var(--primary); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .insight-card:hover .icon-box { background: var(--primary); color: white; transform: rotate(10deg) scale(1.1); }
+        /* Responsive Layout Grid */
+        .dashboard-grid { 
+          display: grid; 
+          grid-template-columns: 320px 1fr; 
+          gap: 2.5rem; 
+        }
+
+        .insights-row { 
+          display: grid; 
+          grid-template-columns: repeat(4, 1fr); 
+          gap: 1.5rem; 
+          margin-bottom: 2.5rem; 
+          margin-right: 1.5rem; 
+        }
+
+        .insight-card { 
+          padding: 1.5rem; 
+          display: flex; 
+          justify-content: space-between; 
+          align-items: center; 
+        }
+
+        .icon-box { 
+          width: 48px; 
+          height: 48px; 
+          border-radius: 12px; 
+          background: #EEF2FF; 
+          color: var(--primary); 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          transition: 0.3s; 
+        }
+
+        .insight-card:hover .icon-box { 
+          background: var(--primary); 
+          color: white; 
+          transform: rotate(10deg) scale(1.1); 
+        }
+
+        @media (max-width: 1150px) {
+          .dashboard-grid { grid-template-columns: 1fr; }
+          .insights-row { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+          .insights-row { grid-template-columns: 1fr; margin-right: 0; }
+          .charts-split { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* POPUP MODAL */}
@@ -128,7 +202,6 @@ export default function Dashboard() {
               </button>
             </div>
             <div className="commit-list">
-              {/* Ensure your API returns a history array if you want to list specific commits */}
               {selectedContributor.history?.map((c, i) => (
                 <div key={i} className="commit-item">
                   <span style={{ fontWeight: 600 }}>{c.message}</span>
@@ -149,8 +222,8 @@ export default function Dashboard() {
           <ArrowLeft size={18} /> Back
         </button>
         <div>
-          <h1 style={{ margin: 0 }}>Git History Visualizer</h1>
-          <p style={{ margin: 0, color: 'var(--text-muted)' }}>
+          <h1 style={{ margin: 0, fontSize: '1.8rem', fontWeight: 800 }}>Git History Visualizer</h1>
+          <p style={{ margin: 0, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
             <Globe size={14} /> {repoData?.name || "No repository selected"}
           </p>
         </div>
@@ -166,11 +239,34 @@ export default function Dashboard() {
             <input
               type="text"
               placeholder="https://github.com/user/repo"
-              style={{ width: '100%', padding: '14px', marginBottom: '20px', border: '1.5px solid var(--border)', borderRadius: '10px', boxSizing: 'border-box' }}
+              style={{ 
+                width: '100%', 
+                padding: '14px', 
+                marginBottom: '20px', 
+                border: '1.5px solid var(--border)', 
+                borderRadius: '10px', 
+                boxSizing: 'border-box',
+                outline: 'none'
+              }}
               value={repoUrl}
               onChange={(e) => setRepoUrl(e.target.value)}
             />
-            <button className="analyze-btn" onClick={analyzeRepo} style={{ width: '100%', background: 'var(--primary)', color: 'white', padding: '14px', border: 'none', borderRadius: '10px', fontWeight: 600, cursor: 'pointer' }}>
+            <button 
+              className="analyze-btn" 
+              onClick={analyzeRepo} 
+              disabled={loading}
+              style={{ 
+                width: '100%', 
+                background: 'var(--primary)', 
+                color: 'white', 
+                padding: '14px', 
+                border: 'none', 
+                borderRadius: '10px', 
+                fontWeight: 600, 
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.7 : 1
+              }}
+            >
               {loading ? "Analyzing..." : "Analyze Repo"}
             </button>
           </div>
@@ -185,27 +281,28 @@ export default function Dashboard() {
           </div>
 
           <div className="card-base" style={{ padding: '2rem', marginBottom: '2rem' }}>
-            <h3>Commit Timeline</h3>
+            <h3 style={{ marginTop: 0 }}>Commit Timeline</h3>
             <div style={{ height: '400px' }}>
               {repoData?.timeline ? (
                 <CommitTimeline data={Object.entries(repoData.timeline).map(([date, count]) => ({ date, count }))} />
               ) : (
-                <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>Awaiting analysis...</div>
+                <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>
+                  Awaiting analysis...
+                </div>
               )}
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+          <div className="charts-split" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
             <div className="card-base" style={{ padding: '2rem' }}>
-              <h3>Top Contributors</h3>
-              {/* Pass the function to update selected contributor */}
+              <h3 style={{ marginTop: 0 }}>Top Contributors</h3>
               <TopContributors 
                 data={repoData?.topContributors} 
                 onContributorClick={(user) => setSelectedContributor(user)} 
               />
             </div>
             <div className="card-base" style={{ padding: '2rem' }}>
-              <h3>Activity Heatmap</h3>
+              <h3 style={{ marginTop: 0 }}>Activity Heatmap</h3>
               <ActivityHeatmap data={repoData?.heatmap} />
             </div>
           </div>
@@ -219,8 +316,8 @@ function StatCard({ title, value, icon }) {
   return (
     <div className="card-base insight-card">
       <div>
-        <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.85rem' }}>{title}</p>
-        <h2 style={{ margin: '4px 0 0 0', fontSize: '1.75rem' }}>{value}</h2>
+        <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 500 }}>{title}</p>
+        <h2 style={{ margin: '4px 0 0 0', fontSize: '1.75rem', fontWeight: 700 }}>{value}</h2>
       </div>
       <div className="icon-box">{icon}</div>
     </div>
