@@ -1,14 +1,52 @@
+import React from "react";
+import "../../styles/contributors.css";
+
 export default function TopContributors({ data }) {
-  if (!data) return <div className="h-48 flex items-center justify-center text-gray-400 italic bg-gray-50 rounded-lg border-2 border-dashed">Waiting for contributor data...</div>;
+  if (!data || data.length === 0) {
+    return (
+      <div className="contributors-empty">
+        Waiting for contributor data...
+      </div>
+    );
+  }
+
+  const max = Math.max(...data.map(u => u.commits));
 
   return (
-    <div className="space-y-4">
-      {data.map((user, i) => (
-        <div key={i} className="flex items-center justify-between border-b pb-2">
-          <span className="font-medium text-gray-700">{user.name}</span>
-          <span className="text-indigo-600 font-bold">{user.commits} commits</span>
-        </div>
-      ))}
+    <div className="contributors-container">
+      {data.map((user, i) => {
+        const width = (user.commits / max) * 100;
+
+        return (
+          <div key={i} className="contributor-card">
+
+            {/* top row */}
+            <div className="contributor-header">
+
+              <div className="contributor-user">
+                <div className="avatar">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <span className="name">{user.name}</span>
+              </div>
+
+              <span className="count">
+                {user.commits} commits
+              </span>
+
+            </div>
+
+            {/* bar */}
+            <div className="bar-bg">
+              <div
+                className="bar-fill"
+                style={{ width: `${width}%` }}
+              />
+            </div>
+
+          </div>
+        );
+      })}
     </div>
   );
 }

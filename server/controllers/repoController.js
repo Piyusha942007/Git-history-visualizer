@@ -1,10 +1,6 @@
 import { parseGitHistory } from "../services/gitParser.js";
 import { logEvent } from "../services/analyticsService.js";
 
-/**
- * POST /api/repo/analyze
- * Body: { repoUrl: string }
- */
 export const analyzeRepo = async (req, res) => {
   try {
     const { repoUrl } = req.body;
@@ -16,16 +12,13 @@ export const analyzeRepo = async (req, res) => {
       });
     }
 
-    // 1️⃣ Parse git history
-    const commits = await parseGitHistory(repoUrl);
+    const analyticsData = await parseGitHistory(repoUrl);
 
-    // 2️⃣ Log event (optional)
     await logEvent("system", "REPO_ANALYZED", { repoUrl });
 
-    // 3️⃣ Return RAW commits array (IMPORTANT)
     return res.status(200).json({
       success: true,
-      commits,
+      data: analyticsData,
     });
 
   } catch (error) {
@@ -39,9 +32,6 @@ export const analyzeRepo = async (req, res) => {
   }
 };
 
-/**
- * GET /api/repo/test-git
- */
 export const testGit = async (req, res) => {
   try {
     return res.status(200).json({

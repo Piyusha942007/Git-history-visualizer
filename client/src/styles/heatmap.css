@@ -1,0 +1,36 @@
+.heatmap-container {
+  width: 100%;
+}
+
+.heatmap-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.heatmap-label {
+  width: 40px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.heatmap-cell {
+  width: 14px;
+  height: 14px;
+  margin: 2px;
+  border-radius: 3px;
+  transition: transform 0.15s ease;
+}
+
+.heatmap-cell:hover {
+  transform: scale(1.25);
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #6b7280;
+}
