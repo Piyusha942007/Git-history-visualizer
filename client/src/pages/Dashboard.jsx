@@ -10,6 +10,7 @@ import {
   Clock,
   X
 } from "lucide-react";
+import { API_BASE_URL } from "../config";
 
 import CommitTimeline from "../components/charts/CommitTimeline";
 import TopContributors from "../components/charts/TopContributors";
@@ -30,11 +31,14 @@ export default function Dashboard() {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch("http://localhost:5000/api/repo/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ repoUrl }),
-      });
+      const res = await fetch(
+  `${API_BASE_URL}/api/repo/analyze`,
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ repoUrl }),
+  }
+);
       const result = await res.json();
       if (!result.success) throw new Error(result.message);
       setRepoData(result.data);
