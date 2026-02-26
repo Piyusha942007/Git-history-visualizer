@@ -1,7 +1,7 @@
 import React from "react";
 import "../../styles/contributors.css";
 
-export default function TopContributors({ data }) {
+export default function TopContributors({ data, onContributorClick }) {
   if (!data || data.length === 0) {
     return (
       <div className="contributors-empty">
@@ -16,24 +16,27 @@ export default function TopContributors({ data }) {
     <div className="contributors-container">
       {data.map((user, i) => {
         const width = (user.commits / max) * 100;
+        // Use user.author or user.name based on your API structure
+        const displayName = user.author || user.name;
 
         return (
-          <div key={i} className="contributor-card">
-
+          <div 
+            key={i} 
+            className="contributor-card clickable" 
+            onClick={() => onContributorClick(user)}
+            style={{ cursor: 'pointer' }}
+          >
             {/* top row */}
             <div className="contributor-header">
-
               <div className="contributor-user">
                 <div className="avatar">
-                  {user.name.charAt(0).toUpperCase()}
+                  {displayName.charAt(0).toUpperCase()}
                 </div>
-                <span className="name">{user.name}</span>
+                <span className="name">{displayName}</span>
               </div>
-
               <span className="count">
                 {user.commits} commits
               </span>
-
             </div>
 
             {/* bar */}
@@ -43,7 +46,6 @@ export default function TopContributors({ data }) {
                 style={{ width: `${width}%` }}
               />
             </div>
-
           </div>
         );
       })}
